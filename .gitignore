@@ -3,3 +3,10 @@ packer_cache/
 
 # For built boxes
 *.box
+/playbooks/roles/ansible-hardening/
+/playbooks/roles/ansible-os-hardening/
+/playbooks/roles/ansible-ssh-hardening/
+/playbooks/roles/role-secure-docker-daemon/
+/playbooks/roles/p-rep-pack/
+/playbooks/roles/citizen-pack/
+/playbooks/roles/node-clean-up/

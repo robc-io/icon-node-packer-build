@@ -1,0 +1,180 @@
+#!/bin/bash
+
+# -e : fail as soon as a command errors out 
+# -u : unset variables are treated as errors
+# -x : print each command before execution (debug tool)
+# -o pipefail : fail as soon as any command in pipeline errors out
+set -euo pipefail
+
+#############################################################################
+# Setting variables
+#############################################################################
+VERSION="v0.0.1"
+
+#############################################################################
+# Runtime variables
+#############################################################################
+declare -a BUILD_LIST=()
+
+OKRED='\033[91m'
+OKGREEN='\033[92m'
+OKORANGE='\033[93m'
+RESET='\e[0m'
+
+LIST=""
+DISTRO=""
+NODE=""
+
+#############################################################################
+# Functions 
+#############################################################################
+
+# Arguments: None
+function print_banner() {
+	echo -e "$OKRED******************************************$RESET"
+	echo -e "$OKRED*$RESET$OKORANGE \tICON Node Packer Builder\t $RESET$OKRED*$RESET"
+	echo -e "$OKRED*$RESET$OKORANGE \t\t$VERSION\t\t\t $RESET$OKRED*$RESET"
+	echo -e "$OKRED******************************************$RESET"
+	echo ""
+}
+
+# Arguments: None
+function show_usage() {
+	echo -e "Usage:"
+	echo -e "  ./icon-node-packer-build <arguments>"
+	echo ""
+	echo -e "arguments:"
+	echo -e "  -l		: List available build distros with associating node types, and exit."
+	echo -e "  -d <distro>	: Distro to build. 'all' will build all available distros."
+	echo -e "  -n <node>	: Node Type to build. 'all' will build all available node types."
+	echo ""
+}
+
+# Arguments: Path to file/directory
+function show_name() {
+	name=$(basename -- "$1")  
+	echo "${name%.*}"
+}
+
+# Arguments: None
+function show_available() {
+	echo -e "Available Build Configs:"
+	echo -e "  Distro (*) and Node Type (+)"
+	echo ""
+	for distro in templates/*;
+	do 
+		distro_name=$(show_name $distro)
+		echo -e "* $distro_name"
+		for node in templates/"$distro_name"/*;
+		do
+			node_name=$(show_name $node)
+			echo -e "  + $node_name"
+		done
+		echo ""
+	done
+}
+
+# Arguments: path to node 
+function node_does_not_exist() {
+	filename=$(show_name "$1")
+	distroname=$(show_name $(dirname "$1"))
+
+	echo -e "$OKRED Node Type $filename does not exist for $distroname. $RESET"
+	echo -e "$OKRED This node will not be built $RESET"
+	echo ""
+}
+
+# Arguments: path to distro dir 
+function distro_does_not_exist() {
+	distroname=$(show_name "$1")
+	echo -e "$OKRED Distro $distroname does not exist. $RESET"
+	echo -e "$OKRED No Build will be done. $RESET"
+	echo ""
+}
+
+# Arguments: Build Item
+function build() {
+	packer build -machine-readable "$1"
+}
+
+#############################################################################
+# Entry Point 
+#############################################################################
+
+# Print Banner
+print_banner
+
+# If no arguments, show usage, and exit
+[[ -z "$*" ]] && show_usage && exit 1
+
+# Parse the arguments
+while getopts "hld:n:" opt;
+do
+	case "${opt}" in
+		l)
+			LIST="yes"
+		;;
+		d)
+			DISTRO="${OPTARG}"
+		;;
+		n)
+			NODE="${OPTARG}"
+		;;
+		h)
+			show_usage
+			exit 0
+		;;
+	esac
+done
+shift $((OPTIND -1))
+
+# If list argument is there, list available and exit.
+[[ -n $LIST ]] && show_available && exit 0
+
+# Handle All distros.
+if [ "${DISTRO}" == "all" ]; then
+
+	if [ "${NODE}" == "all" ]; then
+		BUILD_LIST+=(templates/*/*)
+	else
+		node_list=(templates/*/"${NODE}".json)
+		for node in "${node_list[@]}";
+		do
+			if [ -f "$node" ]; 
+			then
+				BUILD_LIST+=("$node")
+			else
+				node_does_not_exist "$node"
+			fi
+		done
+	fi
+else
+
+	distro_dir=templates/"${DISTRO}"
+	if [ ! -d  "$distro_dir" ];
+	then
+		distro_does_not_exist "$distro_dir"
+		exit 1
+	fi
+
+	if [ "${NODE}" == "all" ]; then
+		BUILD_LIST+=("$distro_dir"/*)
+	else
+		node_list=("$distro_dir"/"${NODE}".json)
+		for node in "${node_list[@]}";
+		do
+			if [ -f "$node" ]; 
+			then
+				BUILD_LIST+=("$node")
+			else
+				node_does_not_exist "$node"
+			fi
+		done
+	fi
+fi
+
+# Build
+for build_item in "${BUILD_LIST[@]}";
+do
+	build "$build_item"
+done
