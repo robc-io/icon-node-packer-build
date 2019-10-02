@@ -10,3 +10,8 @@ packer_cache/
 /playbooks/roles/p-rep-pack/
 /playbooks/roles/citizen-pack/
 /playbooks/roles/node-clean-up/
+/playbooks/roles/bastion-pack/
+/playbooks/roles/sentry-pack/
+/playbooks/roles/bastion-pack/
+/playbooks/roles/bastion-pack/
+/playbooks/roles/sentry-pack/
