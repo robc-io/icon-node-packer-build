@@ -1,0 +1,41 @@
+{
+  "builders": [
+    {
+      "ami_description": "Debian 9 AMI configured to be used as ICON Bastion Node",
+      "ami_name": "bastion-debian-{{isotime | clean_resource_name}}-{{uuid}}",
+      "associate_public_ip_address": true,
+      "instance_type": "t2.micro",
+      "region": "{{user `aws_region`}}",
+      "tags": {
+        "Name": "icon-bastion",
+        "Base_AMI_Name": "{{ .SourceAMIName }}",
+        "Distro": "Debian-9",
+        "Release": "latest"
+      },
+      "source_ami_filter": {
+        "filters": {
+          "architecture": "x86_64",
+          "block-device-mapping.volume-type": "gp2",
+          "name": "debian-stretch-*",
+          "root-device-type": "ebs",
+          "virtualization-type": "hvm"
+        },
+        "most_recent": true,
+        "owners": [
+          "379101102735"
+        ]
+      },
+      "ssh_username": "admin",
+      "type": "amazon-ebs"
+    }
+  ],
+  "min_packer_version": "1.4.0",
+  "provisioners": [
+  {
+    "type": "ansible",
+    "pause_before": "30s",
+    "user": "admin",
+    "playbook_file": "{{ template_dir }}/../../playbooks/bastion-build.yml"
+  }
+  ]
+}
