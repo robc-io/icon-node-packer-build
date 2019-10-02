@@ -9,7 +9,7 @@ set -euo pipefail
 #############################################################################
 # Setting variables
 #############################################################################
-VERSION="v0.0.1"
+VERSION=$(< ./VERSION)
 
 #############################################################################
 # Runtime variables
@@ -124,12 +124,19 @@ do
 			show_usage
 			exit 0
 		;;
+		*)
+			show_usage
+			exit 0
 	esac
 done
 shift $((OPTIND -1))
 
 # If list argument is there, list available and exit.
 [[ -n $LIST ]] && show_available && exit 0
+
+# No Distro or Node, show usage and exit.
+[[ "${DISTRO}" == "" ]] && show_usage && exit 1
+[[ "${NODE}" == "" ]] && show_usage && exit 1
 
 # Handle All distros.
 if [ "${DISTRO}" == "all" ]; then
