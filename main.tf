@@ -26,7 +26,7 @@ resource "null_resource" "meta" {
   }
 
   provisioner "local-exec" {
-    command = "meta git clone `pwd`"
+    command = "meta git clone ."
   }
 }
 
