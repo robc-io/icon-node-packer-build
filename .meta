@@ -8,6 +8,6 @@
     "playbooks/roles/citizen-pack": "git@github.com:anocendi/citizen-pack.git",
     "playbooks/roles/node-clean-up": "git@github.com:anocendi/node-clean-up.git",
     "playbooks/roles/bastion-pack": "git@github.com:anocendi/bastion-pack.git",
-    "playbooks/roles/sentry-pack": "git@github.com:anocendi/sentry-pack.git"
+    "playbooks/roles/sentry-pack": "git@github.com:robc-io/sentry-pack.git"
   }
 }
