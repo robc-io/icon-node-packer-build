@@ -41,3 +41,20 @@ resource "null_resource" "this" {
 
   depends_on = [null_resource.meta]
 }
+
+data "aws_ami" "ami_id" {
+  most_recent = true
+
+  tags = {
+    Name   = local.node
+    Distro = local.distro
+  }
+
+  owners = ["self"]
+
+  depends_on = [null_resource.this]
+}
+
+output "debian_ami_id" {
+  value = data.aws_ami.ami_id.id
+}
