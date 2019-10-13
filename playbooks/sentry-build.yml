@@ -2,9 +2,9 @@
 - hosts: all
   become: true
   roles:
-  - sentry-pack
+    - sentry-pack
+    - node-clean-up
 #  - ansible-hardening
 #  - ansible-os-hardening
 #  - ansible-ssh-hardening
 #  - role-secure-docker-daemon
-  - node-clean-up
