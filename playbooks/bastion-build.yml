@@ -3,7 +3,7 @@
   become: true
   roles:
   - bastion-pack
-  - ansible-hardening
-  - ansible-os-hardening
-  - ansible-ssh-hardening
+#  - ansible-hardening
+#  - ansible-os-hardening
+#  - ansible-ssh-hardening
   - node-clean-up
