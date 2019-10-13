@@ -55,6 +55,3 @@ data "aws_ami" "ami_id" {
   depends_on = [null_resource.this]
 }
 
-output "debian_ami_id" {
-  value = data.aws_ami.ami_id.id
-}
