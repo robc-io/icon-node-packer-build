@@ -14,7 +14,6 @@ locals {
   common_tags = {
     "Name" = local.name
     "Terraform"   = true
-    "Environment" = var.environment
   }
 
   tags = merge(var.tags, local.common_tags)
