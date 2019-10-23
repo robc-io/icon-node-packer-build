@@ -2,8 +2,8 @@
 - hosts: all
   become: true
   roles:
-  - bastion-pack
-#  - ansible-hardening
-#  - ansible-os-hardening
-#  - ansible-ssh-hardening
-  - node-clean-up
+    - bastion-pack
+    - ansible-hardening
+    - ansible-os-hardening
+    - ansible-ssh-hardening
+    - node-clean-up
