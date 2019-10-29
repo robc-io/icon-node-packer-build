@@ -1,13 +1,13 @@
 {
   "projects": {
-    "playbooks/roles/ansible-hardening": "git@github.com:openstack/ansible-hardening.git",
-    "playbooks/roles/ansible-os-hardening": "git@github.com:dev-sec/ansible-os-hardening.git",
-    "playbooks/roles/ansible-ssh-hardening": "git@github.com:dev-sec/ansible-ssh-hardening.git",
-    "playbooks/roles/role-secure-docker-daemon": "git@github.com:ansible/role-secure-docker-daemon.git",
-    "playbooks/roles/p-rep-pack": "git@github.com:insight-infrastructure/p-rep-pack.git",
-    "playbooks/roles/citizen-pack": "git@github.com:insight-infrastructure/citizen-pack.git",
-    "playbooks/roles/node-clean-up": "git@github.com:insight-infrastructure/node-clean-up.git",
-    "playbooks/roles/bastion-pack": "git@github.com:insight-infrastructure/bastion-pack.git",
-    "playbooks/roles/sentry-pack": "git@github.com:insight-infrastructure/sentry-pack.git"
+    "playbooks/roles/ansible-hardening": "https://github.com/openstack/ansible-hardening.git",
+    "playbooks/roles/ansible-os-hardening": "https://github.com/dev-sec/ansible-os-hardening.git",
+    "playbooks/roles/ansible-ssh-hardening": "https://github.com/dev-sec/ansible-ssh-hardening.git",
+    "playbooks/roles/role-secure-docker-daemon": "https://github.com/ansible/role-secure-docker-daemon.git",
+    "playbooks/roles/p-rep-pack": "https://github.com/anocendi/p-rep-pack.git",
+    "playbooks/roles/citizen-pack": "https://github.com/anocendi/citizen-pack.git",
+    "playbooks/roles/node-clean-up": "https://github.com/anocendi/node-clean-up.git",
+    "playbooks/roles/bastion-pack": "https://github.com/anocendi/bastion-pack.git",
+    "playbooks/roles/sentry-pack": "https://github.com/anocendi/sentry-pack.git"
   }
 }
